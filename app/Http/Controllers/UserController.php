@@ -29,7 +29,7 @@ class UserController extends Controller
     // this function will get all the users except admin of role == 1 
     public function getAllUsers(){
         $users = User::where('role' , '<>', '1')->get();
-        $dataTable = [];
+        // $dataTable = [];
         $data = [];
         foreach($users as $user){
             $user->role = $user->role == 0 ? "Author" : "Admin";
@@ -60,7 +60,7 @@ class UserController extends Controller
         if($request->hasFile('picture')){
             $existingPath = storage_path('app/public/' . $path);
             if(file_exists($existingPath)) {
-                @unlink(storage_path('app/public/' . $path));
+                @unlink($existingPath);
                 $path = $request->file("picture")->store("images", "public");
             }
         }
@@ -82,8 +82,6 @@ class UserController extends Controller
         // return $path;
         if(file_exists($path)){
             unlink($path);
-        }else{
-            return "not deleted";
         }
         if($user->delete()){
             return back()->with('delete_status', 'User Delete successfully');
