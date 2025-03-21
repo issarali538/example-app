@@ -80,8 +80,6 @@ Route::prefix('admin')->group(function(){
         Route::view('/replies', "admin.reply")->name('Replies')->middleware([UserLogginMiddleware::class]);
         Route::get('/settings', [SettingController::class, "index"])->name('Settings')->middleware([UserLogginMiddleware::class]);
         Route::post('/save-settings', [SettingController::class, "saveSettings"])->name('saveSettings')->middleware([UserLogginMiddleware::class]);
-                // settings urls 
-                // Route::view('/user');
 });
 
 

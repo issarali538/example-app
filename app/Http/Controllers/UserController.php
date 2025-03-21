@@ -29,7 +29,6 @@ class UserController extends Controller
     // this function will get all the users except admin of role == 1 
     public function getAllUsers(){
         $users = User::where('role' , '<>', '1')->get();
-        // $dataTable = [];
         $data = [];
         foreach($users as $user){
             $user->role = $user->role == 0 ? "Author" : "Admin";
@@ -136,7 +135,7 @@ class UserController extends Controller
             "password" => "required"
         ]);
         
-        if(Auth::attempt(["email" => $request->email, "password" => $request->password])){
+        if(Auth::attempt($credendials)){
             $loggin_data = User::where("email", $credendials["email"])->get(['username', 'picture']);
             // Get the panel name and the picture logo 
             $panel_name = Setting::get()[0]->panel_name;
@@ -182,7 +181,7 @@ class UserController extends Controller
 
     public function updateProfile(Request $request, $user_id){ 
         // return $request->all();
-        $user = User::find($user_id);
+       $user = User::find($user_id);
        $request->validate([
             "email" => ["required", Rule::unique('users')->ignore($user->id)],
             "username" => ["required", Rule::unique('users')->ignore($user->id)],
